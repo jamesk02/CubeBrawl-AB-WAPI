@@ -4,8 +4,6 @@
         return;
     }
 
-    print_r($_POST);
-
     if (!isset($_POST['username'])) {
         echo 'Username not set';
         return;

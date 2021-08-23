@@ -1,3 +1,4 @@
 <?php
-
-echo "suck ya mudda";
+    echo "CubeBrawl Web API";
+    //echo $_SERVER['REQUEST_METHOD'];
+?>

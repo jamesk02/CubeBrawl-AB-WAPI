@@ -9,7 +9,7 @@
     $link = mysqli_connect(null, "root", "mysql", 'CubeBrawlDB', null, $inst);
 
     // Check connection
-    if($link === false){
+    if($link === false) {
         die("ERROR: Could not connect. " . mysqli_connect_error());
     }
 ?>

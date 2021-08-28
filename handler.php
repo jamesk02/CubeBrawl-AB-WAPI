@@ -6,7 +6,7 @@ switch (@parse_url($_SERVER['REQUEST_URI'])['path']) {
         require 'index.php';
         break;
     case '/register':
-        require 'register.php';
+        require 'auth/register.php';
         break;
     default:
         http_response_code(404);

@@ -1,24 +1,7 @@
 <?php
     require_once("header.php");
-
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        echo 'CubeBrawl Web API / POST requests only';
-        return;
-    }
-
-    // Checks if the username parameter is fulfilled
-    if (!isset($_POST['username'])) {
-        echo 'Username not set';
-        return;
-    }
-
-    // Checks if the password parameter is fulfilled
-    if (!isset($_POST['password'])) {
-        echo 'Password not set';
-        return;
-    }
-
-
+    require_once("util/post_only.php");
+    require_once("util/check_creds.php");
 
     $sql = "INSERT INTO Credentials(username, passwordHash) VALUES (?, ?)";
 
@@ -48,12 +31,14 @@
                     $stmt->bind_result($userID);
 
                     $stmt->fetch();
-                    echo 'userID ' . $userID;
+                    //echo 'userID ' . $userID;
                 } else {
-                    echo 'error selecting user id';
+                    http_response_code(500);
+                    exit('error selecting user id');
                 }
             } else {
-                echo 'error preparing select user id statement';
+                http_response_code(500);
+                exit('error preparing select user id statement');
             }
 
             $stmt->close();
@@ -70,13 +55,13 @@
 
                 if (mysqli_stmt_execute($stmt)) {
                     // Success
-
-                    echo 'user data configured successfully';
                 } else {
-                    echo 'error configuring user data';
+                    http_response_code(500);
+                    exit('error configuring user data');
                 }
             } else {
-                echo 'error setting up userdata insert';
+                http_response_code(500);
+                exit('error setting up userdata insert');
             }
 
             $stmt->close();
@@ -84,11 +69,13 @@
             $_SESSION['username'] = $username;
             $_SESSION['isLoggedIn'] = true;
 
-            echo 'Sign up success';
+            exit('Sign up success');
         } else {
-            echo 'Error registering user.';
+            http_response_code(500);
+            exit('Error registering user.');
         }
     } else {
-        echo 'error';
+        http_response_code(500);
+        exit('error');
     }
 ?>

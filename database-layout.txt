@@ -1,0 +1,14 @@
+Data we need to store:
+
+Credentials table
+- User ID (Primary key)
+- Username
+- Password hash
+- Password salt
+
+Stats table
+- User ID (Primary/Foreign key)
+- Coins
+- Gems
+- Trophies
+

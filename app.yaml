@@ -6,3 +6,8 @@ runtime: php74
 #
 entrypoint:
   serve handler.php
+
+env_variables:
+  MYSQL_DSN: "mysql:CubeBrawlDB;unix_socket=/cloudsql/cubebrawl-webapi:europe-west2:sql-instance"
+  MYSQL_USER: 'root'
+  MYSQL_PASSWORD: 'mysql'

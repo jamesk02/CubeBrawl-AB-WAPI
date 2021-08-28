@@ -3,14 +3,45 @@
     require_once("util/post_only.php");
     require_once("util/check_creds.php");
 
+    // First off we need to check if the username is already in use
+    $sql = "SELECT userID FROM Credentials WHERE username = ?";
+
+    // Assign appropriate variables to parameters
+    $username = $_POST['username'];
+
+    // Check if username is already taken
+    $matchingUserID = 0;
+
+    if ($stmt = mysqli_prepare($link, $sql)) {
+        $stmt->bind_param("s", $username);
+
+        if (mysqli_stmt_execute($stmt)) {
+            $stmt->store_result();
+            $stmt->bind_result($matchingUserID);
+            $stmt->fetch();
+
+            if ($matchingUserID != 0) {
+                http_response_code(400);
+                exit('Username already in use');
+            }
+        } else {
+            http_response_code(500);
+            exit('error executing check username not in use statement');
+        }
+    } else {
+        http_response_code(500);
+        exit('error preparing check username not in use statement');
+    }
+
+    // Username is available
+
     $sql = "INSERT INTO Credentials(username, passwordHash) VALUES (?, ?)";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         mysqli_stmt_bind_param($stmt, "ss", $username, $pwd_hash);
 
-        // Assign appropriate variables to parameters
-        $username = $_POST['username'];
         // decided to use B Crypt, see DD here: https://www.seidengroup.com/2021/04/05/storing-passwords-safely/
+        // PASSWORD_DEFAULT updates algorithm with time making code more future proof but right now its BCrypt
         $pwd_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
         // TODO : Add check to see if username is taken or not

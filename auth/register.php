@@ -44,8 +44,6 @@
         // PASSWORD_DEFAULT updates algorithm with time making code more future proof but right now its BCrypt
         $pwd_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-        // TODO : Add check to see if username is taken or not
-
         if (mysqli_stmt_execute($stmt)) {
             mysqli_stmt_store_result($stmt);
 

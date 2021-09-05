@@ -50,34 +50,14 @@
             $stmt->close();
 
             // fetch user id to use as a foreign key to then insert user data
-            $sql = "SELECT userID FROM Credentials WHERE username = ?";
-            $userID = 0; // default
-            if ($stmt = mysqli_prepare($link, $sql)) {
-                mysqli_stmt_bind_param($stmt, "s", $username);
-
-                if (mysqli_stmt_execute($stmt)) {
-                    $stmt->store_result();
-                    $stmt->bind_result($userID);
-
-                    $stmt->fetch();
-                    //echo 'userID ' . $userID;
-                } else {
-                    http_response_code(500);
-                    exit('error selecting user id');
-                }
-            } else {
-                http_response_code(500);
-                exit('error preparing select user id statement');
-            }
-
-            $stmt->close();
+            require "user_data/get_user_id_from_username.php";
 
             // insert user data with starting values
             $sql = "INSERT INTO UserData(userID, coins, gems, trophies) VALUES (?, ?, ?, ?)";
             if ($stmt = mysqli_prepare($link, $sql)) {
                 mysqli_stmt_bind_param($stmt, "iiii", $uID, $coins, $gems, $trophies);
 
-                $uID = $userID;
+                $uID = $_SESSION['userID'];
                 $coins = 0;
                 $gems = 0;
                 $trophies = 100;
@@ -95,7 +75,9 @@
 
             $stmt->close();
 
+            $_SESSION['userID'] = $userID;
             $_SESSION['username'] = $username;
+            require_once("user_data/fetch_user_data.php");
             $_SESSION['isLoggedIn'] = true;
 
             exit('Sign up success');

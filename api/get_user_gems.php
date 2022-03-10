@@ -1,7 +1,13 @@
 <?php
     require_once("header.php");
-    require_once("auth_only.php");
-    require_once("get_only.php");
+    require_once("util/auth_only.php");
+    require_once("util/get_only.php");
 
-    exit($_SESSION['gems']);
+    if (!isset($_SESSION['gems'])) {
+        http_response_code(400);
+        exit('Error retrieving gems, maybe user account is corrupt');
+    }
+
+    http_response_code(200);
+    echo($_SESSION['gems']);
 ?>

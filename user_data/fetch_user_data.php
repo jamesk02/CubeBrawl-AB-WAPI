@@ -3,10 +3,13 @@
      * So it will get coins, gems, trophies, username and store them in the session as long as
      * authentication has been done
      *
+     * The key difference between this and api/get_user_data is that this loads the data into the session
+     * which is used when authenticating whereas api/get_user_data is for when we're already authenticated,
+     * such as in game when checking to see if we can afford a certain item
+     *
      * Only needs a user id in session, once that's been done we can assign all other values to session
      */
 
-    require("util/get_only.php");
     require("util/auth_only.php");
 
     // Login won't have the user ID so fetch that for them, register already will have it
@@ -14,6 +17,11 @@
     $userID = $_SESSION['userID'];
 
     $sql = 'SELECT coins, gems, trophies FROM UserData WHERE userID = ?';
+
+    if (!isset($userID)) {
+        http_response_code(500);
+        exit('Error fetching user ID');
+    }
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         $stmt->bind_param("i", $userID);

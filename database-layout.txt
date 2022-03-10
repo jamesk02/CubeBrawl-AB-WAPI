@@ -11,4 +11,3 @@ Stats table
 - Coins
 - Gems
 - Trophies
-

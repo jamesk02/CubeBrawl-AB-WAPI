@@ -2,11 +2,11 @@
 
     // Connect to MySQL database
 
-    $user = getenv('CLOUDSQL_USER');
-    $pwd = getenv('CLOUDSQL_PASSWORD');
-    $inst = '/cloudsql/cubebrawl-webapi:europe-west2:sql-instance';
+    $user = getenv('MYSQL_USER');
+    $pwd = getenv('MYSQL_PASSWORD');
+    $inst = '/cloudsql/cubebrawl:europe-west2:sql-instance';
 
-    $link = mysqli_connect(null, "root", "mysql", 'CubeBrawlDB', null, $inst);
+    $link = mysqli_connect(null, $user, $pwd, 'CubeBrawlDB', null, $inst);
 
     // Check connection
     if($link === false) {

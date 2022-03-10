@@ -26,6 +26,12 @@ switch (@parse_url($_SERVER['REQUEST_URI'])['path']) {
     case '/api/user/getTrophies':
         require 'api/get_user_trophies.php';
         break;
+    case '/api/user/getData':
+        require 'api/get_user_data.php';
+        break;
+    case '/api/init':
+        require 'initialise-db.php';
+        break;
     // 404
     default:
         http_response_code(404);

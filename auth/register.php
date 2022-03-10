@@ -3,6 +3,7 @@
     require_once("util/post_only.php");
     require_once("util/check_creds.php");
 
+
     // First off we need to check if the username is already in use
     $sql = "SELECT userID FROM Credentials WHERE username = ?";
 
@@ -50,6 +51,8 @@
             $stmt->close();
 
             // fetch user id to use as a foreign key to then insert user data
+            $_SESSION['username'] = $username;
+
             require "user_data/get_user_id_from_username.php";
 
             // insert user data with starting values
@@ -77,13 +80,16 @@
 
             $_SESSION['userID'] = $userID;
             $_SESSION['username'] = $username;
-            require_once("user_data/fetch_user_data.php");
             $_SESSION['isLoggedIn'] = true;
+            require_once("user_data/fetch_user_data.php");
+            
 
+            http_response_code(200);
             exit('Sign up success');
         } else {
             http_response_code(500);
-            exit('Error registering user.');
+            //exit('Error registering user.');
+            exit(mysqli_error($link)); // remove this on launch
         }
     } else {
         http_response_code(500);

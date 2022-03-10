@@ -27,6 +27,10 @@
                 $_SESSION['username'] = $username;
                 $_SESSION['isLoggedIn'] = true;
 
+                $stmt->close();
+
+                require_once('user_data/get_user_id_from_username.php');
+                require_once('user_data/fetch_user_data.php');
                 exit('Login success');
             } else {
                 /* Wrong password

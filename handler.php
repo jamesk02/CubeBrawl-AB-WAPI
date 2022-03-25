@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 /*
  * This handler allows us to only pick and choose which files we give access to
  * an external user. We have to bear in mind that a potential attacker can access
@@ -28,6 +31,9 @@ switch (@parse_url($_SERVER['REQUEST_URI'])['path']) {
         break;
     case '/api/user/getData':
         require 'api/get_user_data.php';
+        break;
+    case '/api/user/setData':
+        require 'api/set_user_data.php';
         break;
     case '/api/init':
         require 'initialise-db.php';

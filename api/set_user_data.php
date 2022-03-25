@@ -77,7 +77,7 @@
             $_SESSION['trophies'] = $trophies;
 
             http_response_code(200);
-            exit($gems . ',' . $coins . ',' . $trophies);
+            exit($coins . ',' . $gems . ',' . $trophies);
         } else {
             http_response_code(500);
             exit('error updating user stats');
